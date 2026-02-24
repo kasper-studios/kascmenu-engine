@@ -1,0 +1,27 @@
+{
+  "name": "kascmpy",
+  "version": "0.1.0",
+  "description": "Modern Console User Interface framework for Node.js",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "example": "node example.js",
+    "example:menu": "node example_menu.js",
+    "example:widgets": "node example_widgets.js",
+    "chat": "node chat_client.js"
+  },
+  "keywords": ["cui", "tui", "console", "terminal", "ui", "framework", "menu", "widgets"],
+  "author": "kasperenok <kasperstudioshelp@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasper-studios/kascmenu-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kasper-studios/kascmenu-engine/issues"
+  },
+  "homepage": "https://github.com/kasper-studios/kascmenu-engine#readme",
+  "dependencies": {
+    "socket.io-client": "^4.5.4"
+  }
+}

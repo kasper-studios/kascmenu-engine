@@ -1,0 +1,40 @@
+# Include documentation
+include README.md
+include LICENSE
+include CHANGELOG.md
+include ARCHITECTURE.md
+include CONTRIBUTING.md
+
+# Include guides
+include CLI_GUIDE.md
+include BUILD_GUIDE.md
+include CHAT_VERSIONS.md
+include QUICKSTART_CHAT.md
+
+# Include requirements
+include requirements.txt
+
+# Include examples
+recursive-include examples *.py
+include example*.py
+include chat_*.py
+include test_*.py
+
+# Include build scripts
+include build*.py
+include build.bat
+include build.sh
+include kcm
+include kcm.bat
+
+# Exclude compiled files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dylib
+
+# Exclude build artifacts
+prune dist
+prune build
+prune *.egg-info

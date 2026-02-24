@@ -1,0 +1,88 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kascmpy"
+version = "0.1.0"
+description = "Modern Console User Interface (CUI) Framework for Python"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "kasperenok", email = "kasperstudioshelp@gmail.com"}
+]
+keywords = ["cui", "tui", "console", "terminal", "ui", "framework"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: User Interfaces",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/kasper-studios/kascmenu-engine"
+Documentation = "https://github.com/kasper-studios/kascmenu-engine#readme"
+Repository = "https://github.com/kasper-studios/kascmenu-engine"
+"Bug Tracker" = "https://github.com/kasper-studios/kascmenu-engine/issues"
+
+[project.optional-dependencies]
+chat = [
+    "flask>=3.0.0",
+    "flask-socketio>=5.3.0",
+    "python-socketio>=5.11.0",
+]
+notifications = [
+    "win10toast>=0.9; sys_platform == 'win32'",
+]
+build = [
+    "nuitka>=1.0",
+    "cython>=3.0.0; python_version >= '3.12'",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+]
+all = [
+    "flask>=3.0.0",
+    "flask-socketio>=5.3.0",
+    "python-socketio>=5.11.0",
+    "win10toast>=0.9; sys_platform == 'win32'",
+    "nuitka>=1.0",
+    "cython>=3.0.0; python_version >= '3.12'",
+]
+
+[project.scripts]
+kcm = "kcmpy.cli:main"
+
+[tool.setuptools]
+packages = ["kcmpy", "kcmpy.core", "kcmpy.cui", "kcmpy.events"]
+
+[tool.setuptools.package-data]
+kcmpy = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

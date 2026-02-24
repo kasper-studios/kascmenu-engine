@@ -1,0 +1,1 @@
+"""CUI widgets module."""
