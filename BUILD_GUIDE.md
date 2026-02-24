@@ -1,20 +1,20 @@
-# KCM Chat - Руководство по компиляции
+﻿# KCM Chat - Compilation Guide
 
-## 🎯 Зачем компилировать?
+## 🎯 Why Compile?
 
-Компиляция с Nuitka создает standalone исполняемые файлы:
-- ✅ Не нужен Python на целевой машине
-- ✅ Один файл вместо кучи .py
-- ✅ Быстрее запуск (скомпилированный код)
-- ✅ Проще распространять
+Compiling with Nuitka creates standalone executable files:
+- ✅ No Python required on the target machine
+- ✅ Single file instead of multiple .py files
+- ✅ Faster startup (compiled code)
+- ✅ Easier distribution
 
-## 📦 Установка Nuitka
+## 📦 Installing Nuitka
 
 ### Windows
 ```bash
 pip install nuitka
 
-# Для Python 3.12+ требуется Cython
+# Cython required for Python 3.12+
 pip install cython
 ```
 
@@ -22,26 +22,26 @@ pip install cython
 ```bash
 pip3 install nuitka
 
-# Для Python 3.12+ требуется Cython
+# Cython required for Python 3.12+
 pip3 install cython
 
-# Дополнительно для Linux (для лучшей оптимизации)
+# Additional for Linux (better optimization)
 sudo apt-get install ccache  # Ubuntu/Debian
 sudo dnf install ccache      # Fedora
 ```
 
-### Важно для Python 3.12+
-Начиная с Python 3.12, Nuitka требует Cython для компиляции. Установите:
+### Important for Python 3.12+
+Starting with Python 3.12, Nuitka requires Cython for compilation. Install it:
 ```bash
 pip install cython>=3.0.0
 ```
 
-Если Cython не установлен, Nuitka может выдать ошибку:
+If Cython is not installed, Nuitka may throw an error:
 ```
 Error: Nuitka requires Cython for Python 3.12+ support
 ```
 
-## 🚀 Быстрая компиляция
+## 🚀 Quick Compilation
 
 ### Windows
 ```bash
@@ -54,13 +54,13 @@ chmod +x build.sh
 ./build.sh
 ```
 
-Это скомпилирует:
-- `dist/kcm_chat.exe` (или `kcm_chat` на Unix) - клиент
-- `dist/kcm_chat_server.exe` (или `kcm_chat_server`) - сервер
+This will compile:
+- `dist/kcm_chat.exe` (or `kcm_chat` on Unix) - client
+- `dist/kcm_chat_server.exe` (or `kcm_chat_server`) - server
 
-## 🔧 Ручная компиляция
+## 🔧 Manual Compilation
 
-### Клиент
+### Client
 ```bash
 python -m nuitka \
     --standalone \
@@ -70,10 +70,10 @@ python -m nuitka \
     --lto=yes \
     --include-package=kcmpy \
     --include-package=socketio \
-    chat_client_simple_notifications.py
+    chat_client.py
 ```
 
-### Сервер
+### Server
 ```bash
 python -m nuitka \
     --standalone \
@@ -85,87 +85,87 @@ python -m nuitka \
     chat_server.py
 ```
 
-## 🎨 Интерактивная компиляция
+## ⚙️ Interactive Compilation
 
 ```bash
 python build_nuitka.py
 ```
 
-Выберите что компилировать:
-1. Только клиент
-2. Только сервер
-3. Оба
-4. Выход
+Select what to compile:
+1. Client only
+2. Server only
+3. Both
+4. Exit
 
-## ⚙️ Параметры Nuitka
+## ⚙️ Nuitka Options
 
-### Основные
-- `--standalone` - включить все зависимости
-- `--onefile` - один исполняемый файл
-- `--output-filename=NAME` - имя выходного файла
-- `--output-dir=DIR` - директория для вывода
+### Main Options
+- `--standalone` - include all dependencies
+- `--onefile` - single executable file
+- `--output-filename=NAME` - output file name
+- `--output-dir=DIR` - output directory
 
-### Оптимизация
-- `--lto=yes` - Link Time Optimization (быстрее, меньше размер)
-- `--python-flag=no_site` - не включать site.py
+### Optimization
+- `--lto=yes` - Link Time Optimization (faster, smaller size)
+- `--python-flag=no_site` - don't include site.py
 
-### Включение/исключение модулей
-- `--include-package=PKG` - включить пакет
-- `--nofollow-import-to=PKG` - не следовать импортам в пакет
+### Include/Exclude Modules
+- `--include-package=PKG` - include package
+- `--nofollow-import-to=PKG` - don't follow imports to package
 
-### Windows специфичные
-- `--windows-console-mode=attach` - консольное приложение
-- `--windows-icon-from-ico=icon.ico` - иконка приложения
+### Windows Specific
+- `--windows-console-mode=attach` - console application
+- `--windows-icon-from-ico=icon.ico` - application icon
 
-## 📊 Размеры файлов
+## 📊 File Sizes
 
-Примерные размеры после компиляции:
+Approximate sizes after compilation:
 
-| Файл | Windows | Linux |
+| File | Windows | Linux |
 |------|---------|-------|
-| Клиент | ~15-20 MB | ~12-18 MB |
-| Сервер | ~18-25 MB | ~15-22 MB |
+| Client | ~15-20 MB | ~12-18 MB |
+| Server | ~18-25 MB | ~15-22 MB |
 
-Размер зависит от:
-- Включенных зависимостей
-- Оптимизаций
-- Платформы
+Size depends on:
+- Included dependencies
+- Optimizations
+- Platform
 
-## 🐛 Решение проблем
+## 🐛 Troubleshooting
 
-### Nuitka не найден
+### Nuitka Not Found
 ```bash
 pip install --upgrade nuitka
 ```
 
-### Ошибка компиляции
-1. Проверьте что все зависимости установлены:
+### Compilation Error
+1. Check that all dependencies are installed:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Попробуйте без оптимизаций:
+2. Try without optimizations:
    ```bash
-   python -m nuitka --standalone --onefile chat_client_simple_notifications.py
+   python -m nuitka --standalone --onefile chat_client.py
    ```
 
-3. Проверьте логи в `dist/` директории
+3. Check logs in the `dist/` directory
 
-### Долгая компиляция
-Первая компиляция может занять 5-15 минут.
-Последующие будут быстрее благодаря кэшированию.
+### Long Compilation Time
+First compilation may take 5-15 minutes.
+Subsequent compilations will be faster thanks to caching.
 
-Ускорение:
+Speed up:
 ```bash
 # Linux
 sudo apt-get install ccache
 
 # Windows
-# Nuitka автоматически использует кэш
+# Nuitka automatically uses cache
 ```
 
-### Большой размер файла
-Исключите ненужные модули:
+### Large File Size
+Exclude unnecessary modules:
 ```bash
 --nofollow-import-to=tkinter \
 --nofollow-import-to=matplotlib \
@@ -173,25 +173,25 @@ sudo apt-get install ccache
 --nofollow-import-to=pandas
 ```
 
-### Антивирус блокирует
-Некоторые антивирусы могут блокировать скомпилированные файлы.
-Добавьте в исключения или используйте `--windows-uac-admin` для подписи.
+### Antivirus Blocking
+Some antivirus software may block compiled files.
+Add to exceptions or use `--windows-uac-admin` for signing.
 
-## 📝 Настройки сохраняются
+## 📝 Settings Persistence
 
-После компиляции настройки сохраняются в:
+After compilation, settings are saved to:
 - **Windows**: `C:\Users\<USER>\.kcm\kcm_chat.json`
 - **Linux**: `~/.kcm/kcm_chat.json`
 - **macOS**: `~/.kcm/kcm_chat.json`
 
-Формат:
+Format:
 ```json
 {
   "server": {
     "url": "http://localhost:5000"
   },
   "user": {
-    "nickname": "Пользователь"
+    "nickname": "User"
   },
   "notifications": {
     "messages": true,
@@ -201,17 +201,17 @@ sudo apt-get install ccache
 }
 ```
 
-## 🚀 Распространение
+## 🚀 Distribution
 
-### Один файл
-Просто скопируйте `kcm_chat.exe` (или `kcm_chat`) на целевую машину.
+### Single File
+Simply copy `kcm_chat.exe` (or `kcm_chat`) to the target machine.
 
-### С сервером
-Скопируйте оба файла:
-- `kcm_chat.exe` - клиент
-- `kcm_chat_server.exe` - сервер
+### With Server
+Copy both files:
+- `kcm_chat.exe` - client
+- `kcm_chat_server.exe` - server
 
-### Архив
+### Archive
 ```bash
 # Windows
 7z a kcm_chat.zip dist/kcm_chat.exe dist/kcm_chat_server.exe
@@ -220,18 +220,18 @@ sudo apt-get install ccache
 tar -czf kcm_chat.tar.gz dist/kcm_chat dist/kcm_chat_server
 ```
 
-## 💡 Советы
+## 💡 Tips
 
-1. **Тестируйте скомпилированную версию** перед распространением
-2. **Используйте --lto=yes** для оптимизации
-3. **Исключайте ненужные модули** для уменьшения размера
-4. **Добавьте иконку** для Windows версии
-5. **Создайте installer** для удобства (NSIS, Inno Setup)
+1. **Test the compiled version** before distribution
+2. **Use --lto=yes** for optimization
+3. **Exclude unnecessary modules** to reduce size
+4. **Add icon** for Windows version
+5. **Create installer** for convenience (NSIS, Inno Setup)
 
-## 📚 Дополнительно
+## 📚 Additional
 
-### Создание installer (Windows)
-Используйте Inno Setup:
+### Creating Installer (Windows)
+Use Inno Setup:
 ```iss
 [Setup]
 AppName=KCM Chat
@@ -248,7 +248,7 @@ Name: "{group}\KCM Chat"; Filename: "{app}\kcm_chat.exe"
 Name: "{group}\KCM Chat Server"; Filename: "{app}\kcm_chat_server.exe"
 ```
 
-### Создание .deb пакета (Linux)
+### Creating .deb Package (Linux)
 ```bash
 mkdir -p kcm-chat/usr/local/bin
 cp dist/kcm_chat kcm-chat/usr/local/bin/
@@ -266,7 +266,7 @@ EOF
 dpkg-deb --build kcm-chat
 ```
 
-## 🔗 Ссылки
+## 🔗 Links
 
 - [Nuitka Documentation](https://nuitka.net/doc/user-manual.html)
 - [Nuitka GitHub](https://github.com/Nuitka/Nuitka)
@@ -274,5 +274,5 @@ dpkg-deb --build kcm-chat
 
 ---
 
-**Версия:** 0.1.0  
-**Дата:** 2026-02-24
+**Version:** 0.1.0
+**Date:** 2026-02-24

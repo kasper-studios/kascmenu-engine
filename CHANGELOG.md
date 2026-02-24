@@ -1,175 +1,166 @@
-# Changelog
+﻿# Changelog
 
-Все значимые изменения в проекте документируются в этом файле.
+All notable changes to this project will be documented in this file.
 
-Формат основан на [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-версионирование следует [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Added
-- `chat_client_simple_notifications.py` - версия с консольными уведомлениями (без win10toast)
-- `CHAT_VERSIONS.md` - гайд по выбору версии клиента
-- `kcmpy/core/config.py` - система сохранения настроек в JSON
-- `build_nuitka.py` - интерактивная build система с KCM UI! 🎨
-- `build.bat` / `build.sh` - быстрые скрипты компиляции
-- `BUILD_GUIDE.md` - полное руководство по компиляции с Nuitka
-- **`kcm_cli.py` - CLI инструмент для scaffolding проектов!** 🛠️
-- **`kcm` / `kcm.bat` - wrapper скрипты для удобного запуска**
-- **`CLI_GUIDE.md` - полное руководство по KCM CLI**
-- **Автосохранение настроек** в `~/.kcm/kcm_chat.json`
-- **Интерактивный режим CLI** - меню на KCM UI (dogfooding!)
-- **Команды**: `init`, `run`, `build`, `doctor`
+- `kcmpy/core/config.py` - JSON settings persistence system
+- `build_nuitka.py` - interactive build system with KCM UI! 🎨
+- `build.bat` / `build.sh` - quick compilation scripts
+- `BUILD_GUIDE.md` - complete Nuitka compilation guide
+- **`kcm_cli.py` - CLI tool for project scaffolding!** 🛠️
+- **`kcm` / `kcm.bat` - wrapper scripts for convenient launch**
+- **Autosave settings** to `~/.kcm/kcm_chat.json`
+- **Interactive CLI mode** - KCM UI menu (dogfooding!)
+- **Commands**: `init`, `run`, `build`, `doctor`
 
 ### Fixed
-- Проблема с рендерингом в чате (артефакты и наложение текста)
-- Ошибка win10toast `WNDPROC return value cannot be converted to LRESULT`
-- Экран теперь очищается при обновлениях в ChatScreen
-- Улучшена обработка ошибок в NotificationManager
-- **Длинные сообщения теперь обрезаются с "..." вместо выхода за границы**
-- Сообщения не ломают рамку чата
+- Rendering issues in chat (text artifacts and overlapping)
+- win10toast error `WNDPROC return value cannot be converted to LRESULT`
+- Screen now clears on updates in ChatScreen
+- Improved error handling in NotificationManager
+- **Long messages now truncated with "..." instead of breaking layout**
+- Messages no longer break chat frame
 
 ### Changed
-- `chat_client_notifications.py` - улучшена обработка ошибок win10toast
-- Рекомендуется использовать `chat_client_simple_notifications.py` для стабильности
-- Рендеринг сообщений учитывает ширину окна и обрезает длинные строки
-- **build_nuitka.py теперь использует KCM UI** - демонстрация возможностей фреймворка!
-- **KCM CLI использует KCM для своего UI** - ultimate dogfooding! 🎨
+- `chat_client.py` - improved error handling
+- Message rendering accounts for window width and truncates long lines
+- **build_nuitka.py now uses KCM UI** - framework capabilities demonstration!
+- **KCM CLI uses KCM for its UI** - ultimate dogfooding! 🎨
 
 ### Planned
 - Thread-safe event queue
 - Template screens (FormScreen, ListScreen, LogScreen)
-- Unit tests для core компонентов
+- Unit tests for core components
 - API documentation
-- Hot reload для разработки
+- Hot reload for development
 
 ## [0.1.0] - 2026-02-24
 
 ### Added - Core Framework
-- **Component** - базовый класс для всех UI элементов
-- **Renderer** - ANSI рендеринг с кроссплатформенностью
-- **App** - главный цикл с event-driven архитектурой
-- **InputHandler** - обработка клавиатуры с поддержкой Unicode/кириллицы
-- **EventBus** - система событий (KEY_PRESS, MOUSE_CLICK, etc.)
+- **Component** - base class for all UI elements
+- **Renderer** - ANSI rendering with cross-platform support
+- **App** - main loop with event-driven architecture
+- **InputHandler** - keyboard handling with Unicode/Cyrillic support
+- **EventBus** - event system (KEY_PRESS, MOUSE_CLICK, etc.)
 
 ### Added - Screen Management
-- **Screen** - базовый класс для экранов
-- **ScreenManager** - роутинг между экранами (switch_to, push, pop)
-- **Dialog** - модальные окна (MessageDialog, ConfirmDialog)
+- **Screen** - base class for screens
+- **ScreenManager** - routing between screens (switch_to, push, pop)
+- **Dialog** - modal windows (MessageDialog, ConfirmDialog)
 - Lifecycle hooks: on_enter, on_exit, on_pause, on_resume
 
 ### Added - Widgets (20+)
 - **Containers**: Box, Text
 - **Menus**: Menu, MenuItem, SelectList
-- **Progress**: ProgressBar, Spinner (10+ стилей), MultiProgressBar, StatusIndicator
+- **Progress**: ProgressBar, Spinner (10+ styles), MultiProgressBar, StatusIndicator
 - **Input**: TextInput, Checkbox, RadioGroup, Button
 - **Data**: Table, Chart, TreeView
 
 ### Added - Layout System
-- **VBox** - вертикальная компоновка с фиксированными/гибкими высотами
-- **HBox** - горизонтальная компоновка с фиксированными/гибкими ширинами
-- **Grid** - сетка rows x cols с spanning
-- **Stack** - z-index слои
-- **Anchor** - позиционирование относительно краев
+- **VBox** - vertical layout with fixed/flexible heights
+- **HBox** - horizontal layout with fixed/flexible widths
+- **Grid** - grid with rows x cols and spanning
+- **Stack** - z-index layers
+- **Anchor** - positioning relative to edges
 
 ### Added - Styling & Themes
-- **Style** - цвета, bold, italic, underline
-- **Theme** - система тем с 7 предустановленными (Default, Dark, Light, Purple, Matrix, Ocean, Fire)
-- **WidgetStyle** - padding, margin, border (6 стилей), shadow
-- **StyledWidget** - миксин для применения стилей
-- Автоматический выбор ASCII/Unicode символов по платформе
+- **Style** - colors, bold, italic, underline
+- **Theme** - Theme system with 7 presets (Default, Dark, Light, Purple, Matrix, Ocean, Fire)
+- **WidgetStyle** - padding, margin, border (6 styles), shadow
+- **StyledWidget** - mixin for applying styles
+- Automatic ASCII/Unicode character selection by platform
 
 ### Added - Advanced Features
-- **needs_render** - dirty flag система для оптимизации
-- **animated mode** - режим для виджетов с анимацией
-- **focus system** - Tab навигация между элементами
-- **async updates** - поддержка WebSocket и threading
-- **Unicode/Cyrillic** - полная поддержка кириллицы на Windows (cp866) и Linux (UTF-8)
+- **needs_render** - dirty flag system for optimization
+- **animated mode** - mode for animated widgets
+- **focus system** - Tab navigation between elements
+- **async updates** - WebSocket and threading support
+- **Unicode/Cyrillic** - full Cyrillic support on Windows (cp866) and Linux (UTF-8)
 
 ### Added - Examples
-- `example.py` - простое меню
-- `example_menu.py` - интерактивное меню с быстрыми клавишами
-- `example_widgets.py` - демо всех виджетов с анимацией
-- `example_screens.py` - multi-screen приложение с VBox/HBox/Grid
-- `example_themes.py` - демонстрация всех тем
-- `test_cyrillic_input.py` - тест ввода кириллицы
+- `example_menu.py` - interactive menu with keyboard shortcuts
+- `example_widgets.py` - all widgets demo with animation
+- `example_screens.py` - multi-screen app with VBox/HBox/Grid
+- `example_themes.py` - all themes demonstration
+- `chat_client.py` + `chat_server.py` - WebSocket chat with CUI interface
 
 ### Added - Real-world Application: WebSocket Chat
-- `chat_server.py` - Flask-SocketIO сервер с веб-интерфейсом
-- `chat_client.py` - базовый CUI клиент чата
-- `chat_client_notifications.py` - клиент с push-уведомлениями
+- `chat_server.py` - Flask-SocketIO server with web interface
+- `chat_client.py` - basic CUI chat client
 - **Features**:
-  - Настройка сервера и никнейма через UI
-  - Real-time сообщения через WebSocket
-  - История сообщений с прокруткой
-  - Уведомления о входе/выходе пользователей
-  - Push-уведомления (Windows Toast, Linux notify-send)
-  - Настройка типов уведомлений через чекбоксы
+  - Server and nickname configuration via UI
+  - Real-time messages via WebSocket
+  - Message history with scrolling
+  - User join/leave notifications
+  - Push notifications (Windows Toast, Linux notify-send)
+  - Notification type configuration via checkboxes
 
 ### Added - Documentation
-- `README.md` - обзор проекта
-- `ARCHITECTURE.md` - архитектура, roadmap, lessons learned
-- `EXAMPLES.md` - примеры кода для всех use cases
-- `PROJECT_SUMMARY.md` - краткое резюме проекта
-- `QUICKSTART_CHAT.md` - быстрый старт чата
-- `NOTIFICATIONS_GUIDE.md` - гайд по уведомлениям
-- `TEST_NOTIFICATIONS.md` - тестирование уведомлений
-- `test_chat.md` - инструкция по тестированию чата
+- `README.md` - project overview
+- `INSTALL.md` - installation guide
+- `ARCHITECTURE.md` - architecture, roadmap, lessons learned
+- `BUILD_GUIDE.md` - Nuitka compilation guide
+- `CHANGELOG.md` - change history
 
 ### Fixed
-- Рендеринг без спама (event-driven вместо 60 FPS loop)
-- Артефакты при переходах между экранами (добавлен clear_screen)
-- Фантомные строки от виджетов (убраны `\n` из render методов)
-- Проблемы с фокусом (добавлена система focused/focusable)
-- Автоматическое обновление при WebSocket событиях (needs_render флаг)
-- Ввод кириллицы на Windows (поддержка cp866 и многобайтовых символов)
-- Обработка Unicode символов в TextInput
+- Rendering without spam (event-driven instead of 60 FPS loop)
+- Artifacts during screen transitions (added clear_screen)
+- Phantom lines from widgets (removed `\n` from render methods)
+- Focus issues (added focused/focusable system)
+- Auto-update on WebSocket events (needs_render flag)
+- Cyrillic input on Windows (cp866 and multi-byte character support)
+- Unicode character handling in TextInput
 
 ### Changed
-- Component.render() из abstract в concrete с дефолтной реализацией
-- App.run() теперь периодически проверяет updates даже в не-анимированном режиме
-- InputHandler читает многобайтовые UTF-8 символы на Windows
-- TextInput принимает все Unicode символы кроме control-символов
+- Component.render() from abstract to concrete with default implementation
+- App.run() now periodically checks updates even in non-animated mode
+- InputHandler reads multi-byte UTF-8 characters on Windows
+- TextInput accepts all Unicode characters except control characters
 
 ### Technical Details
 - **Lines of Code**: ~6000 (Python + examples + docs)
 - **Widgets**: 20+
 - **Themes**: 7
-- **Examples**: 8
-- **Documentation**: 7 файлов
+- **Examples**: 5
+- **Documentation**: 5 files
 
 ### Performance
-- Event-driven рендеринг экономит CPU
-- Dirty flags минимизируют перерисовки
-- Async updates не блокируют UI
-- Рендер < 16ms для 60 FPS
+- Event-driven rendering saves CPU
+- Dirty flags minimize redraws
+- Async updates don't block UI
+- Render < 16ms for 60 FPS
 
 ### Platform Support
 - ✅ Windows 10/11 (cmd, PowerShell, Windows Terminal)
-- ✅ Linux (bash, zsh, любой ANSI терминал)
+- ✅ Linux (bash, zsh, any ANSI terminal)
 - ✅ macOS (Terminal.app, iTerm2)
 
 ### Dependencies
 - Python 3.7+
-- flask >= 3.0.0 (для chat_server)
-- flask-socketio >= 5.3.0 (для chat_server)
-- python-socketio >= 5.11.0 (для chat_client)
-- win10toast >= 0.9 (опционально, для уведомлений на Windows)
+- flask >= 3.0.0 (for chat_server)
+- flask-socketio >= 5.3.0 (for chat_server)
+- python-socketio >= 5.11.0 (for chat_client)
+- win10toast >= 0.9 (Optional, for notifications on Windows)
 
 ## [0.0.1] - 2026-02-23
 
 ### Added
-- Начальная версия проекта
-- Базовая структура фреймворка
-- Простое меню
+- Initial project version
+- Basic framework structure
+- Simple menu
 
 ---
 
-## Типы изменений
+## Change Types
 
-- **Added** - новые фичи
-- **Changed** - изменения в существующем функционале
-- **Deprecated** - функционал который скоро будет удален
-- **Removed** - удаленный функционал
-- **Fixed** - исправления багов
-- **Security** - исправления уязвимостей
+- **Added** - new features
+- **Changed** - changes to existing functionality
+- **Deprecated** - functionality that will be removed soon
+- **Removed** - removed functionality
+- **Fixed** - bug fixes
+- **Security** - vulnerability fixes

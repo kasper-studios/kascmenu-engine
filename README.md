@@ -138,35 +138,16 @@ python chat_server.py
 Server starts at `http://localhost:5000` with web interface for monitoring.
 
 ### Start Client
-
-**Basic version (no notifications):**
 ```bash
 python chat_client.py
 ```
-
-**With console notifications (recommended):**
-```bash
-python chat_client_simple_notifications.py
-```
 No additional libraries required, notifications shown in console.
-
-**With system push notifications:**
-```bash
-python chat_client_notifications.py
-```
-For Windows requires:
-```bash
-pip install win10toast
-```
-⚠️ Warning: win10toast may cause errors on some systems. Use `chat_client_simple_notifications.py` as alternative.
-
 ### Chat Features:
 - Server address and nickname configuration
 - Send and receive messages in real-time
 - Message history scrolling (↑/↓)
 - User connect/disconnect notifications
 - Web interface for server monitoring
-- 🔔 **Push notifications** for new messages and events (in notifications version)
 - Notification type configuration
 - Cyrillic support
 
@@ -186,13 +167,10 @@ MIT
 ## 📚 Documentation
 
 - **[README.md](README.md)** - this file, project overview
+- **[INSTALL.md](INSTALL.md)** - installation guide
 - **[BUILD_GUIDE.md](BUILD_GUIDE.md)** - Nuitka compilation guide
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - architecture, roadmap, lessons learned
-- **[EXAMPLES.md](EXAMPLES.md)** - code examples for all use cases
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - how to contribute
 - **[CHANGELOG.md](CHANGELOG.md)** - change history
-- **[CLI_GUIDE.md](CLI_GUIDE.md)** - CLI tool documentation
-- **[INSTALL.md](INSTALL.md)** - installation guide
 
 ## 🎯 Project Status
 
@@ -215,6 +193,7 @@ MIT
 🚧 Template screens (FormScreen, ListScreen, etc.)  
 🚧 Unit tests  
 🚧 API documentation  
+🚧 Async funcs
 
 ### Roadmap
 📋 v0.2 - Stabilization  

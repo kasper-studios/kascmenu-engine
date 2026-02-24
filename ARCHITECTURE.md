@@ -1,20 +1,20 @@
-# KCM Framework - Архитектура и Roadmap
+﻿# KCM Framework - Architecture and Roadmap
 
-## Текущее состояние (v0.1)
+## Current State (v0.1)
 
-### ✅ Что уже работает
+### ✅ What Works
 
 #### Core Layer
-- **Component** - базовый класс для всех UI элементов
-- **Renderer** - ANSI рендеринг с кроссплатформенностью
-- **App** - главный цикл с event-driven архитектурой
-- **InputHandler** - обработка клавиатуры (включая Unicode/кириллицу)
-- **EventBus** - система событий
+- **Component** - base class for all UI elements
+- **Renderer** - ANSI rendering with cross-platform support
+- **App** - main loop with event-driven architecture
+- **InputHandler** - keyboard handling (including Unicode/Cyrillic)
+- **EventBus** - event system
 
 #### Screen Management
-- **Screen** - базовый класс для экранов
-- **ScreenManager** - роутинг между экранами
-- **Dialog** - модальные окна (MessageDialog, ConfirmDialog)
+- **Screen** - base class for screens
+- **ScreenManager** - routing between screens
+- **Dialog** - modal windows (MessageDialog, ConfirmDialog)
 - Lifecycle hooks: on_enter, on_exit, on_pause, on_resume
 
 #### Widgets
@@ -25,51 +25,51 @@
 - **Data**: Table, Chart, TreeView
 
 #### Layout System
-- **VBox** - вертикальная компоновка
-- **HBox** - горизонтальная компоновка
-- **Grid** - сетка
-- **Stack** - z-index слои
-- **Anchor** - позиционирование
+- **VBox** - vertical layout
+- **HBox** - horizontal layout
+- **Grid** - grid
+- **Stack** - z-index layers
+- **Anchor** - positioning
 
 #### Styling
-- **Style** - цвета, bold, italic, underline
-- **Theme** - 7 предустановленных тем
+- **Style** - colors, bold, italic, underline
+- **Theme** - 7 preset themes
 - **WidgetStyle** - padding, margin, border, shadow
-- **StyledWidget** - миксин для стилизации
+- **StyledWidget** - mixin for styling
 
 #### Advanced Features
-- **needs_render** - dirty flag система
-- **animated mode** - для виджетов с анимацией
-- **focus system** - Tab навигация
-- **async updates** - поддержка WebSocket и потоков
+- **needs_render** - dirty flag system
+- **animated mode** - for animated widgets
+- **focus system** - Tab navigation
+- **async updates** - WebSocket and threading support
 
-### 🎯 Доказанные use cases
+### 🎯 Proven Use Cases
 
-1. **Simple Menu** - быстрое меню для CLI tools
-2. **Widget Showcase** - демо всех виджетов с анимацией
-3. **Multi-screen App** - навигация между экранами
-4. **WebSocket Chat** - реальное приложение с:
-   - Настройками
-   - Реал-тайм коммуникацией
-   - Push-уведомлениями
-   - Системной интеграцией
+1. **Simple Menu** - quick menu for CLI tools
+2. **Widget Showcase** - demo of all widgets with animation
+3. **Multi-screen App** - navigation between screens
+4. **WebSocket Chat** - real application with:
+   - Settings UI
+   - Real-time communication
+   - Push notifications
+   - System integration
 
-## 🔧 Архитектурные решения
+## 🔧 Architectural Decisions
 
-### 1. Event-driven рендеринг
+### 1. Event-driven Rendering
 ```python
-# Не спамим рендер постоянно
+# Don't spam render constantly
 if self.needs_render:
     self.needs_render = False
     return True
 ```
 
-**Плюсы:**
-- Экономия CPU
-- Плавная работа
-- Поддержка асинхронных обновлений
+**Advantages:**
+- CPU efficient
+- Smooth operation
+- Supports async updates
 
-### 2. Component-based архитектура
+### 2. Component-based Architecture
 ```python
 class MyScreen(Screen):
     def __init__(self, rect):
@@ -78,54 +78,54 @@ class MyScreen(Screen):
         self.add_child(widget2)
 ```
 
-**Плюсы:**
-- Композиция вместо наследования
-- Переиспользование компонентов
-- Изоляция логики
+**Advantages:**
+- Composition over inheritance
+- Component reusability
+- Logic isolation
 
-### 3. Screen Manager как роутер
+### 3. Screen Manager as Router
 ```python
 screens.add_screen("settings", settings_screen)
 screens.add_screen("chat", chat_screen)
 screens.switch_to("chat")
 ```
 
-**Плюсы:**
-- Явные переходы
-- Lifecycle управление
-- Модальные окна через push/pop
+**Advantages:**
+- Explicit transitions
+- Lifecycle management
+- Modal windows via push/pop
 
-### 4. Dirty flag оптимизация
+### 4. Dirty Flag Optimization
 ```python
 @self.sio.on('message')
 def on_message(data):
     self.messages.append(msg)
-    self.needs_render = True  # Триггер перерисовки
+    self.needs_render = True  # Trigger redraw
 ```
 
-**Плюсы:**
-- Рендер только при изменениях
-- Работа с асинхронными источниками
-- Не блокирует UI
+**Advantages:**
+- Render only on changes
+- Works with async data sources
+- Non-blocking UI
 
-## ⚠️ Известные ограничения
+## ⚠️ Known Limitations
 
 ### 1. Thread Safety
-**Проблема:**
+**Problem:**
 ```python
-# WebSocket колбэки мутируют состояние из другого потока
+# WebSocket callbacks mutate state from different thread
 self.messages.append(msg)
 self.header.status = 'success'
 ```
 
-**Решение (будущее):**
+**Future Solution:**
 ```python
-# Очередь событий
+# Event queue
 app.post_event(lambda: self.messages.append(msg))
 ```
 
-### 2. Ручной рендер в Screen
-**Сейчас:**
+### 2. Manual Render in Screen
+**Current:**
 ```python
 def render(self, renderer):
     self.header.render(renderer)
@@ -133,105 +133,105 @@ def render(self, renderer):
     self.input_field.render(renderer)
 ```
 
-**Можно:**
+**Could be:**
 ```python
 def render(self, renderer):
-    super().render(renderer)  # Рендерит children
+    super().render(renderer)  # Renders children
     self.render_custom_content(renderer)
 ```
 
-### 3. Нет шаблонов экранов
-**Сейчас:** каждый экран пишется с нуля
+### 3. No Screen Templates
+**Current:** each screen is written from scratch
 
-**Будущее:**
+**Future:**
 ```python
 class SettingsScreen(FormScreen):
     fields = [
-        TextField("url", "Адрес сервера"),
-        TextField("nickname", "Никнейм"),
-        CheckboxField("notify", "Уведомления")
+        TextField("url", "Server URL"),
+        TextField("nickname", "Nickname"),
+        CheckboxField("notify", "Notifications")
     ]
 ```
 
 ## 🚀 Roadmap
 
-### v0.2 - Стабилизация
+### v0.2 - Stabilization
 - [ ] Thread-safe event queue
-- [ ] Базовый Screen.render() для children
-- [ ] Документация API
-- [ ] Unit тесты для core компонентов
-- [ ] Примеры для каждого виджета
+- [ ] Base Screen.render() for children
+- [ ] API Documentation
+- [ ] Unit tests for core components
+- [ ] Examples for each widget
 
 ### v0.3 - Template Screens
-- [ ] FormScreen - автоматические формы
-- [ ] ListScreen - списки с навигацией
-- [ ] LogScreen - логи с автоскроллом
-- [ ] WizardScreen - многошаговые мастера
-- [ ] SplitScreen - разделенный экран
+- [ ] FormScreen - automatic forms
+- [ ] ListScreen - lists with navigation
+- [ ] LogScreen - logs with auto-scroll
+- [ ] WizardScreen - multi-step wizards
+- [ ] SplitScreen - split screen layout
 
 ### v0.4 - Advanced Widgets
-- [ ] DatePicker - выбор даты
-- [ ] ColorPicker - выбор цвета
-- [ ] FileExplorer - файловый браузер
-- [ ] CodeEditor - редактор с подсветкой
-- [ ] Terminal - встроенный терминал
+- [ ] DatePicker - date selection
+- [ ] ColorPicker - color selection
+- [ ] FileExplorer - file browser
+- [ ] CodeEditor - syntax highlighting editor
+- [ ] Terminal - embedded terminal
 
 ### v0.5 - Developer Experience
-- [ ] Hot reload для разработки
-- [ ] Debug mode с границами компонентов
+- [ ] Hot reload for development
+- [ ] Debug mode with component borders
 - [ ] Performance profiler
 - [ ] Component inspector
-- [ ] CLI для генерации проектов
+- [ ] CLI for project generation
 
 ### v1.0 - Production Ready
-- [ ] Полная документация
-- [ ] Туториалы и гайды
-- [ ] Стабильный API
-- [ ] Примеры реальных приложений
-- [ ] Package на PyPI
+- [ ] Complete Documentation
+- [ ] Tutorials and guides
+- [ ] Stable API
+- [ ] Real-world application examples
+- [ ] Package on PyPI
 
-## 💡 Идеи для будущего
+## 💡 Future Ideas
 
-### 1. Декларативный синтаксис
+### 1. Declarative Syntax
 ```python
 @screen
 def settings_screen():
     with VBox():
-        Text("Настройки")
+        Text("Settings")
         input_url = TextInput("URL")
         input_nick = TextInput("Nickname")
         Button("Connect", on_click=connect)
 ```
 
-### 2. Reactive state
+### 2. Reactive State
 ```python
 class ChatScreen(Screen):
-    messages = State([])  # Автоматический рендер при изменении
-    
+    messages = State([])  # Auto-render on change
+
     def add_message(self, msg):
-        self.messages.append(msg)  # Триггерит рендер
+        self.messages.append(msg)  # Triggers render
 ```
 
-### 3. Middleware система
+### 3. Middleware System
 ```python
 app.use(LoggingMiddleware())
 app.use(AuthMiddleware())
 app.use(ThemeMiddleware())
 ```
 
-### 4. Plugin система
+### 4. Plugin System
 ```python
 app.register_plugin(NotificationPlugin())
 app.register_plugin(DatabasePlugin())
 ```
 
-### 5. Bindings для других языков
-- JavaScript (уже есть основа)
+### 5. Bindings for Other Languages
+- JavaScript (foundation exists)
 - Rust
 - Go
 - C#
 
-## 📊 Метрики качества
+## 📊 Quality Metrics
 
 ### Code Coverage
 - [ ] Core: 80%+
@@ -239,62 +239,62 @@ app.register_plugin(DatabasePlugin())
 - [ ] Screens: 60%+
 
 ### Performance
-- [ ] Рендер < 16ms (60 FPS)
+- [ ] Render < 16ms (60 FPS)
 - [ ] Input latency < 50ms
 - [ ] Memory leak free
 
 ### Developer Experience
-- [ ] Время создания простого меню: < 5 минут
-- [ ] Время создания multi-screen app: < 30 минут
-- [ ] Документация покрывает 90% use cases
+- [ ] Simple menu creation time: < 5 minutes
+- [ ] Multi-screen app creation time: < 30 minutes
+- [ ] Documentation covers 90% of use cases
 
 ## 🎓 Lessons Learned
 
-### Что сработало
-1. **Event-driven вместо FPS loop** - экономия CPU
-2. **Component composition** - гибкость и переиспользование
-3. **Screen Manager** - чистая навигация
-4. **Dirty flags** - оптимизация рендера
-5. **Кроссплатформенность с первого дня** - меньше боли потом
+### What Worked Well
+1. **Event-driven instead of FPS loop** - CPU efficient
+2. **Component composition** - flexibility and reusability
+3. **Screen Manager** - clean navigation
+4. **Dirty flags** - render optimization
+5. **Cross-platform from day one** - less pain later
 
-### Что можно было лучше
-1. **Thread safety** - надо было сразу делать event queue
-2. **Тестирование** - писать тесты параллельно с кодом
-3. **Документация** - документировать API сразу
-4. **Примеры** - больше примеров для каждого виджета
+### What Could Be Better
+1. **Thread safety** - should have implemented event queue from the start
+2. **Testing** - should write tests alongside code
+3. **Documentation** - should document API immediately
+4. **Examples** - need more examples for each widget
 
-### Что удивило
-1. **Unicode/кириллица** - сложнее чем казалось (cp866 на Windows)
-2. **Уведомления** - легко интегрируются
-3. **WebSocket** - отлично работает с event-driven архитектурой
-4. **Скорость разработки** - реальное приложение за короткое время
+### What Was Surprising
+1. **Unicode/Cyrillic** - more complex than expected (cp866 on Windows)
+2. **Notifications** - easy to integrate
+3. **WebSocket** - works great with event-driven architecture
+4. **Development speed** - real application built in short time
 
 ## 🤝 Contributing
 
-### Приоритеты
-1. **Стабильность** > новые фичи
-2. **Документация** > код
-3. **Примеры** > абстракции
-4. **Простота** > "умность"
+### Priorities
+1. **Stability** > new features
+2. **Documentation** > code
+3. **Examples** > abstractions
+4. **Simplicity** > "cleverness"
 
 ### Code Style
-- Type hints везде
-- Docstrings для публичных методов
-- Примеры в docstrings
-- Тесты для новых фич
+- Type hints everywhere
+- Docstrings for public methods
+- Examples in docstrings
+- Tests for new features
 
-## 📝 Заключение
+## 📝 Conclusion
 
-KCM Framework уже доказал свою состоятельность:
-- ✅ Архитектура масштабируется
-- ✅ API интуитивный
-- ✅ Performance достаточный
-- ✅ Реальные use cases работают
+KCM Framework has already proven its viability:
+- ✅ Architecture scales well
+- ✅ API is intuitive
+- ✅ Performance is sufficient
+- ✅ Real use cases work
 
-Следующий шаг - стабилизация и шаблоны для ускорения разработки.
+Next step - stabilization and templates for faster development.
 
 ---
 
-**Версия:** 0.1.0  
-**Дата:** 2026-02-24  
-**Статус:** Active Development
+**Version:** 0.1.0
+**Date:** 2026-02-24
+**Status:** Active Development
